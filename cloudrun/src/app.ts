@@ -7,7 +7,8 @@ import { handleGet, handlePost } from "./lib/streaming";
 const app = express();
 
 // Use CORS for local development
-app.use(cors({ origin: "http://localhost:3000" }));
+// app.use(cors({ origin: "http://localhost:3000" }));
+app.use(cors({ origin: "*" }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
