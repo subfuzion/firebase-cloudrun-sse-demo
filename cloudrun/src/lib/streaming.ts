@@ -1,4 +1,5 @@
-import { Database } from "./lib/sensor_data";
+import { Request, Response } from "express";
+import { Database } from "./database";
 
 const db = new Database();
 
@@ -8,39 +9,33 @@ const ID = "sensor1";
 // Track active clients; remove clients when they disconnect:
 // Map client req -> res.
 const clients = new Map();
-let intervalId;
+let intervalId: NodeJS.Timer;
 
-export default function handler(req, res) {
-  if (req.method === "POST") {
-    const { value } = req.body;
-    // console.log(`received: ${value}`);
-    db.appendData(value);
-    res.headers = [
-      {
-        key: "Keep-Alive",
-        value: false,
-      },
-    ];
-    return res.status(200).end();
-  }
+export function handlePost(req: Request, res: Response) {
+  const { value } = req.body;
+  // console.log(`received: ${value}`);
+  db.appendData(value);
+  res.header("Keep-Alive", "false");
+  return res.status(200).end();
+}
 
-  if (req.method === "GET") {
-    res.writeHead(200, {
-      "Content-Type": "text/event-stream",
-      "Cache-Control": "no-cache",
-      Connection: "keep-alive",
-    });
+export function handleGet(req: Request, res: Response) {
+  res.writeHead(200, {
+    "Content-Type": "text/event-stream",
+    "Cache-Control": "no-cache",
+    Connection: "keep-alive",
+  });
+  res.flushHeaders();
 
-    addClient(req, res);
+  addClient(req, res);
 
-    // Send initial data;
-    sendSSE(res, ID, db.getData());
-  }
+  // Send initial data;
+  sendSSE(res, ID, db.getData());
 }
 
 // Keep track of client connections
 
-function addClient(req, res) {
+function addClient(req: Request, res: Response) {
   console.log("add client");
   clients.set(req, res);
   req.on("close", () => {
@@ -51,7 +46,7 @@ function addClient(req, res) {
   if (clients.size === 1) startBroadcast();
 }
 
-function removeClient(req) {
+function removeClient(req: Request) {
   console.log("remove client");
   const res = clients.get(req);
   try {
@@ -92,11 +87,10 @@ function stopBroadcast() {
  * @param value The payload that will be sent (available on the SSE `data` prop
  *             as a JSON encoded string).
  */
-function sendSSE(res, id, value) {
+function sendSSE(res: Response, id: string, value: number) {
   if (value === -1) return;
   console.log(`sending value: ${value}`);
   res.write(`id: ${id}\n`);
   res.write(`data: ${value.toString()}\n`);
   res.write("\n");
-  res.flush();
 }

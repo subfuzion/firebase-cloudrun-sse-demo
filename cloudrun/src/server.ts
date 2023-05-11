@@ -1,12 +1,6 @@
-import express from "express";
-import cookieParser from "cookie-parser";
 import { AddressInfo } from "net";
 
-const app = express();
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+import app from "./app";
 
 const network = "0.0.0.0";
 const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 8080;
@@ -20,7 +14,7 @@ const server = app.listen(port, network, () => {
 server.on("error", (error: NodeJS.ErrnoException) => {
   if (error.syscall !== "listen") throw error;
 
-  // handle specific listen errors with friendly messages
+  // Improve local development experience with friendly error messages
   switch (error.code) {
     case "EACCES":
       console.error(`Error: port ${port} requires elevated privileges`);
@@ -47,7 +41,3 @@ async function shutdown(signal: string) {
   console.log("Done.");
   process.exit();
 }
-
-app.get("/", (req, res) => {
-  res.status(200).send("hello");
-});

@@ -5,11 +5,12 @@
 const BUFFER_MAX = 1024 * 1024; // 1 MB
 
 export class Database {
-  static data = [];
+  static data: Array<number> = [];
 
-  appendData(n) {
+  appendData(n: number): void {
     if (Database.data.length >= BUFFER_MAX) {
-      // console.log(`Database buffer overflow: ${d.length} (dropping oldest 1K of data)`);
+      // console.log(`Database buffer overflow: ${d.length} (dropping oldest 1K
+      // of data)`);
       const discard = 1024;
       Database.data = Database.data.slice(discard);
     }
@@ -17,14 +18,15 @@ export class Database {
     // console.log(`write buffer.length: ${d.length}`);
   }
 
-  getData() {
+  getData(): number {
     const d = Database.data;
     if (!d.length) {
       // console.log(`Database buffer underflow (return value: -1)`);
       return -1;
     }
-    const val = d.shift();
+    // const val = d.shift();
     // console.log(`read buffer.length: ${d.length}`);
-    return val;
+    // return val;
+    return d.shift() || -1;
   }
 }
