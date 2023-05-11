@@ -6,8 +6,8 @@ API to Cloud Run.
 
 To try the app, open the following links in a browser:
 
-https://nextjs-sensor-demo-3lam4rtc4a-uc.a.run.app/sensor
-https://nextjs-sensor-demo-3lam4rtc4a-uc.a.run.app
+1. https://nextjs-sensor-demo-3lam4rtc4a-uc.a.run.app/sensor
+2. https://nextjs-sensor-demo-3lam4rtc4a-uc.a.run.app
 
 Move the slider of the range control on the sensor and observe the updates in
 the other page.
