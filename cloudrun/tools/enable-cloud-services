@@ -1,0 +1,22 @@
+#!/bin/sh
+
+SCRIPT=$(basename "${0}")
+PROJECT="${1:-${PROJECT}}"
+
+usage() {
+  echo "Either set environment variable or use positional argument:"
+  echo "    ${SCRIPT} PROJECT"
+}
+
+err() {
+  echo "$1"
+  usage
+  exit 1
+}
+
+[ -z "${PROJECT}" ] && err "Error: missing PROJECT name argument"
+
+gcloud services enable --project "${PROJECT}" \
+  run.googleapis.com \
+  artifactregistry.googleapis.com \
+  cloudbuild.googleapis.com
