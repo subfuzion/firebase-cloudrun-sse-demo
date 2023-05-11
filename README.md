@@ -1,3 +1,17 @@
+## Overview
+
+This app demonstrates using server-side-events (SSE) from a Next.js app deployed
+to Firebase Hosting. The SSE support is achieved by deploying the event streaming
+API to Cloud Run.
+
+To try the app, open the following links in a browser:
+
+https://nextjs-sensor-demo-3lam4rtc4a-uc.a.run.app/sensor
+https://nextjs-sensor-demo-3lam4rtc4a-uc.a.run.app
+
+Move the slider of the range control on the sensor and observe the updates in
+the other page.
+
 ## Prerequisites
 
 1. Google Cloud account
