@@ -22,7 +22,7 @@ export default function Index() {
     const connect = () => {
       // eslint-disable-next-line no-console
       console.log(`connecting...`);
-      eventSrc = new EventSource("http://localhost:8080/api/data");
+      eventSrc = new EventSource("/api/data");
 
       eventSrc.onmessage = (event) => {
         const value = parseInt(event.data, 10);

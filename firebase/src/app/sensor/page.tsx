@@ -21,7 +21,7 @@ export default function Home() {
     try {
       // eslint-disable-next-line no-console
       console.log(`post value: ${value}`);
-      const res = await fetch("http://localhost:8080/api/data", requestOptions);
+      const res = await fetch("/api/data", requestOptions);
       if (!res.ok) {
         // eslint-disable-next-line no-console
         console.error(res.statusText);
